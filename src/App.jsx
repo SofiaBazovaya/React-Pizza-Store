@@ -1,12 +1,22 @@
+import { useState, useEffect } from 'react';
 import './scss/app.scss'
 import Header from './components/Header';
 import Categories from './components/Categories';
 import Sort from './components/Sort';
 import PizzaBlock from './components/PizzaBlock';
-import pizzas from './assets/pizza.json';
 import { nanoid } from 'nanoid'
 
+
 function App() {
+
+  const [pizzas, setPizzas] = useState([]);
+
+  useEffect(()=>{
+    fetch('https://6984cb04885008c00db25a56.mockapi.io/items')
+    .then((res) =>{return res.json()} )
+    .then((arr) => {setPizzas(arr)})
+  }, [])
+
 
 return (
     <div className="wrapper">

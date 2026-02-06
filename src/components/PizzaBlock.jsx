@@ -2,7 +2,7 @@ import { useState } from "react"
 import { nanoid } from 'nanoid'
 
 
-export default function PizzaBlock({title , price, sizes, types, id }){
+export default function PizzaBlock({title , price, sizes, types, id, imageUrl }){
 
   const typeName =['тонкое', 'традиционное']
   const [pizzaCount, setPizzaCount] = useState(0);
@@ -13,7 +13,7 @@ export default function PizzaBlock({title , price, sizes, types, id }){
             <div className="pizza-block">
               <img
                 className="pizza-block__image"
-                src={`/img/pizzas/${id}.avif`}
+                src={imageUrl}
                 alt={title}
               />
 
