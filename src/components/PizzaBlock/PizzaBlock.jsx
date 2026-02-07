@@ -2,12 +2,14 @@ import { useState } from "react"
 import { nanoid } from 'nanoid'
 
 
-export default function PizzaBlock({title , price, sizes, types, id, imageUrl }){
+export default function PizzaBlock({title , price, sizes, types, imageUrl }){
 
   const typeName =['тонкое', 'традиционное']
   const [pizzaCount, setPizzaCount] = useState(0);
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
+ 
+  const scale = sizes[activeSize] / 40;
 
   return (
             <div className="pizza-block">
@@ -15,6 +17,7 @@ export default function PizzaBlock({title , price, sizes, types, id, imageUrl })
                 className="pizza-block__image"
                 src={imageUrl}
                 alt={title}
+                style={{ transform: `scale(${scale})` }}          
               />
 
               <h4 className="pizza-block__title">{title}</h4>

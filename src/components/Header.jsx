@@ -1,4 +1,6 @@
 import { Link } from 'react-router-dom'
+import logo from '../assets/img/pizza-logo.svg'
+import shoppingCart from '../assets/img/iconfinder_shopping-cart.svg'
 
 export default function Header(){
   return (
@@ -7,7 +9,7 @@ export default function Header(){
             <Link to='/'>
               <div className="header__logo">
             
-            <img width={38} src="/img/pizza-logo.svg" alt="Pizza logo" />
+            <img width={38} src={logo} alt="Pizza logo" />
             
             <div>
               
@@ -25,7 +27,7 @@ export default function Header(){
               <img
                 width="18"
                 height="18"
-                src="img/iconfinder_shopping-cart.svg" 
+                src={shoppingCart}
                 alt="shopping-cart icon"
               />
 
