@@ -225,11 +225,14 @@ body {
       width: 13%;
 
       &-minus {
+        margin-left: 20px;
+        margin-right: 10px;
         svg {
           path:first-of-type {
             display: none;
           }
         }
+        
 
         &:disabled {
           opacity: 0.4;
@@ -253,10 +256,19 @@ body {
         }
       }
 
+      &-plus {
+        margin-left: 10px;
+        margin-right: 20px;
+      }
+
+
       b {
         font-size: 22px;
       }
     }
+                   
+          
+                  
 
     &-price {
       display: flex;
