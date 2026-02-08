@@ -12,7 +12,8 @@ export default function PizzaBlock({title , price, sizes, types, imageUrl }){
   const scale = sizes[activeSize] / 40;
 
   return (
-            <div className="pizza-block">
+      <div className="pizza-block-wrapper">
+                   <div className="pizza-block">
               <img
                 className="pizza-block__image"
                 src={imageUrl}
@@ -51,5 +52,6 @@ export default function PizzaBlock({title , price, sizes, types, imageUrl }){
                 </button>
               </div>
             </div>
+      </div>
   )
 }
