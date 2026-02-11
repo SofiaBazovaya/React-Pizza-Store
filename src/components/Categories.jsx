@@ -1,30 +1,23 @@
-import { useState } from "react"
 import { nanoid } from 'nanoid'
 
 
-export default function Categories(){
-  const [activeIndex, setActiveIndex] =useState(0);
+export default function Categories({value, onClickCategory}){
   const categories =[
     'Все',
     'Мясные',
     'Вегетарианские',
-    'Гриль',
-    'Острые',
-    'Закрытые'
+    'Смешанные'
   ]
 
-  const onClickCategory = (index) =>{
-    setActiveIndex(index)
-  }
 
   return (
                 <div className="categories">
               <ul>
                 {
-                  categories.map( (value, index )=> (
+                  categories.map( (categoryName, index )=> (
                 <li 
-                 key={nanoid()} className={activeIndex === index ? "active" : "" } onClick={() => onClickCategory(index)}>
-                  {value}
+                 key={nanoid()} className={value === index ? "active" : "" } onClick={() => onClickCategory(index)}>
+                  {categoryName}
                 </li>
                   ))}       
               </ul>

@@ -8,8 +8,7 @@ export default function PizzaBlock({title , price, sizes, types, imageUrl }){
   const [pizzaCount, setPizzaCount] = useState(0);
   const [activeType, setActiveType] = useState(types[0]);
   const [activeSize, setActiveSize] = useState(0);
- 
-  const scale = sizes[activeSize] / 40;
+
 
   return (
       <div className="pizza-block-wrapper">
@@ -18,7 +17,7 @@ export default function PizzaBlock({title , price, sizes, types, imageUrl }){
                 className="pizza-block__image"
                 src={imageUrl}
                 alt={title}
-                style={{ transform: `scale(${scale})` }}          
+                style={{ transform: `scale(${sizes[activeSize] / 40})` }}          
               />
 
               <h4 className="pizza-block__title">{title}</h4>

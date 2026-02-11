@@ -40,21 +40,6 @@ return (
             </h2>
 
             <div className="cart__clear">
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 20 20"
-                fill="none"
-              >
-                <path
-                  d="M2.5 5H4.16667H17.5"
-                  stroke="#B6B6B6"
-                  strokeWidth="1.2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-              </svg>
-
               <span>Очистить корзину</span>
             </div>
           </div>
@@ -64,7 +49,7 @@ return (
               <div className="cart__item-img">
                 <img
                   className="pizza-block__image"
-                  src="https://dodopizza-a.akamaihd.net/static/Img/Products/Pizza/ru-RU/b750f576-4a83-48e6-a283-5a8efb68c35d.jpg"
+                  src="https://res.cloudinary.com/do33cbmi2/image/upload/v1770365879/1_thizo6.avif"
                   alt="Pizza"
                 />
               </div>

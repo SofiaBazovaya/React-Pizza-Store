@@ -2,14 +2,14 @@ import { useState } from "react"
 import { nanoid } from 'nanoid'
 
 
-export default function Sort(){
+export default function Sort({value, onChangeSort}){
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
-  const [selectedType, setSelectedType] = useState(0);
+  
 
-  const list = ['популярности', 'цене', 'алфавиту']
+  const list = [{name: 'популярности', sortProperty: 'rating'}, {name: 'цене', sortProperty: 'price'} , {name: 'алфавиту', sortProperty: 'title'}]
 
   const onClickType = (index) => {
-    setSelectedType(index);
+    onChangeSort(index);
     setIsVisiblePopup(false);
   }
 
@@ -17,15 +17,18 @@ export default function Sort(){
             <div className="sort">
               <div className="sort__label">
                 <b>Сортировка по:</b>
-                <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{list[selectedType]}</span>
+                <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{value.name}</span>
               </div>
               {isVisiblePopup &&   
               <div className="sort__popup">
                 <ul>
                 {
-                  list.map( (name, index)=> (
-                <li key={nanoid()} className={selectedType === index ? "active" : "" } onClick={() => onClickType(index)}>
-                  {name}
+                  list.map( (obj)=> (
+                <li 
+                key={nanoid()} 
+                className={value.sortProperty === obj.sortProperty ? "active" : "" } 
+                onClick={() => onClickType(obj)}>
+                  {obj.name}
                 </li>
                   ))}  
                 </ul>
