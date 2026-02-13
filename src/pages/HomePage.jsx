@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
+import { SearchContext } from '../context/SearchContext';
 import { nanoid } from 'nanoid';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -8,7 +9,9 @@ import Pagination from '../components/Pagination/Pagination';
 
 
 
-function Home({searchValue}) {
+function Home() {
+  const {searchValue} = useContext(SearchContext);
+
 
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +31,7 @@ function Home({searchValue}) {
     window.scrollTo(0, 0);
   }, [categoryId, sortType, searchValue, currentPage])
 
-  // фильтрация не чере backend, т.к. mockapi не очень корректно работает с ней
+  // фильтрация не чере backend, т.к. mockapi не очень корректно работает  с ней
   const pizzasBlocks = pizzas.filter(obj => {
    if(obj.title.toLowerCase().includes(searchValue)) {
     return true;
