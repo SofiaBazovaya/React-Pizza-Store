@@ -6,7 +6,7 @@ export default function PizzaBlock({title , price, sizes, types, imageUrl }){
 
   const typeName =['тонкое', 'традиционное']
   const [pizzaCount, setPizzaCount] = useState(0);
-  const [activeType, setActiveType] = useState(types[1]);
+  const [activeType, setActiveType] = useState(types[1 ]);
   const [activeSize, setActiveSize] = useState(sizes.length - 1);
 
 

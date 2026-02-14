@@ -186,12 +186,13 @@ body {
     border-top: 1px solid variables.$gray-line;
     padding-top: 30px;
     margin-top: 30px;
+    margin-bottom: 30px;
 
     &-img {
       display: flex;
       align-items: center;
       margin-right: 15px;
-      width: 10%;
+     
 
       img {
         width: 80px;
@@ -222,7 +223,6 @@ body {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      width: 13%;
 
       &-minus {
         margin-left: 20px;
@@ -273,8 +273,9 @@ body {
     &-price {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 33%;
+      justify-content: right;
+      width: 30%;
+      padding-right: 10px;
 
       b {
         font-weight: bold;
@@ -287,7 +288,6 @@ body {
       display: flex;
       align-items: center;
       justify-content: flex-end;
-      width: 4%;
 
       .button {
         border-color: color.adjust($color: variables.$gray-line, $lightness: -10%);
@@ -417,4 +417,84 @@ body {
       font-size: 18px;
     }
   }
+}
+
+
+@media (max-width: 545px) {
+  .cart__item {
+    flex-wrap: wrap; 
+    justify-content: flex-end;
+  }
+
+  .cart__item-img {
+    img {
+      width: 60px;
+      height: 60px;
+    }
+  }
+
+  .cart__item-info {
+    flex: 1;
+    min-width: 120px;
+
+    h3 {
+      font-size: 18px;
+    }
+
+    p {
+      font-size: 13px;
+    }
+  }
+
+  .cart__item-count {
+    flex: 0 0 auto;
+
+    b {
+      font-size: 18px;
+      margin: 0 6px;
+    }
+  }
+
+    .cart__item-price {
+  
+      b {
+        font-size: 18px;
+      }
+    }
+  .cart__item-remove {
+    flex: 0 0 auto;
+    margin-left: 6px;
+    margin-right: 20px;
+  }
+  .cart .content__title,
+  .cart__bottom-details span {
+      font-size: 18px;
+  }
+    .cart__clear span{
+      font-size: 16px;
+    }
+.cart__bottom-details{
+  margin-left: 10px;
+  margin-right: 10px;
+  column-gap: 50px;
+}
+  .cart__bottom-buttons {
+    column-gap: 20px;
+  }
+
+}
+
+@media (max-width: 409px) {
+  .cart__item {
+    row-gap: 20px;
+    justify-content: space-between;
+  }
+    .cart__item-img {
+      margin-right: 0;
+      margin-left: 45px;
+    }
+  
+    .cart__item-info {
+      align-items: center;
+    }
 }

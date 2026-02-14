@@ -106,10 +106,10 @@ return (
                 <div className=" ">
                   <div className="cart__bottom-details">
                     <span>
-                      Всего пицц: <b>3 шт.</b>
+                      Всего пицц: <b>3&nbsp;шт.</b>
                     </span>
                     <span>
-                      Сумма заказа: <b>900 ₽</b>
+                      Сумма заказа: <b>900&nbsp;₽</b>
                     </span>
                   </div>
 
