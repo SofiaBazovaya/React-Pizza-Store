@@ -1,16 +1,52 @@
-# React + Vite
+# Pizza Store
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SPA-приложение для заказа пиццы с каталогом, поиском, сортировкой, пагинацией и корзиной.
 
-Currently, two official plugins are available:
+## Стек
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- React 18
+- Vite
+- React Router v6
+- Context API (поиск)
+- Axios + Fetch
+- SCSS / CSS Modules
+- lodash (debounce)
+- react-paginate
+- react-content-loader
+- nanoid
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## Возможности
 
-## Expanding the ESLint configuration
+- каталог пицц
+- фильтрация и сортировка
+- поиск
+- пагинация
+- корзина с подсчётом суммы
+- мультистраничная навигация
+- адаптивная вёрстка
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+---
+
+## Запуск
+
+npm install
+npm run dev
+
+## Структура
+
+src/
+├─ assets
+├─ components
+├─ context
+├─ pages
+└─ scss
+
+---
+
+## Планы
+
+- перейти на Redux Toolkit
+- добавить TypeScript
+- сохранить корзину в LocalStorage
