@@ -1,15 +1,18 @@
 import { useState } from "react"
 import { nanoid } from 'nanoid'
+import { useSelector, useDispatch } from "react-redux";
+import { setSort } from "../redux/slices/filterSlice";
 
+const list = [{name: 'популярности', sortProperty: 'rating'}, {name: 'цене', sortProperty: 'price'} , {name: 'алфавиту', sortProperty: 'title'}]
 
-export default function Sort({value, onChangeSort}){
+export default function Sort(){
+  const dispatch = useDispatch();
+  const sort = useSelector(state => state.filter.sort)
+
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   
-
-  const list = [{name: 'популярности', sortProperty: 'rating'}, {name: 'цене', sortProperty: 'price'} , {name: 'алфавиту', sortProperty: 'title'}]
-
-  const onClickType = (index) => {
-    onChangeSort(index);
+  const onClickType = (obj) => {
+    dispatch(setSort(obj));
     setIsVisiblePopup(false);
   }
 
@@ -17,7 +20,7 @@ export default function Sort({value, onChangeSort}){
             <div className="sort">
               <div className="sort__label">
                 <b>Сортировка по:</b>
-                <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{value.name}</span>
+                <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{sort.name}</span>
               </div>
               {isVisiblePopup &&   
               <div className="sort__popup">
@@ -26,7 +29,7 @@ export default function Sort({value, onChangeSort}){
                   list.map( (obj)=> (
                 <li 
                 key={nanoid()} 
-                className={value.sortProperty === obj.sortProperty ? "active" : "" } 
+                className={sort.sortProperty === obj.sortProperty ? "active" : "" } 
                 onClick={() => onClickType(obj)}>
                   {obj.name}
                 </li>

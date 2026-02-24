@@ -1,6 +1,8 @@
 import { useState, useEffect, useContext } from 'react';
 import { SearchContext } from '../context/SearchContext';
 import { nanoid } from 'nanoid';
+import { useSelector, useDispatch } from 'react-redux';
+import { setCategoryId } from '../redux/slices/filterSlice';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
@@ -8,21 +10,30 @@ import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
 
 
-
 function Home() {
   const {searchValue} = useContext(SearchContext);
-
-
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [categoryId, setCategoryId] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
-  const [sortType, setSortType] = useState({name: 'популярности', sortProperty: 'rating'});
+  
+  const {categoryId, sort} = useSelector(state => state.filter);
+  const sortType = sort.sortProperty;
+  /* ИЛИ
+  const categoryId = useSelector(state => state.filter.categoryId);
+  const sortType = useSelector(state => state.filter.sort.sortProperty);
+  */
+ 
+  const dispatch = useDispatch();
+
+  const onClickCategory =(id)=>{
+      dispatch(setCategoryId (id))
+  }
+  
 
   //backend не сообщает сколько есть страниц
   useEffect(()=>{
     setIsLoading(true)
-    fetch(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryId > 0 ? `category=${categoryId}` : ''}&sortby=${sortType.sortProperty}&order=asc`)
+    fetch(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryId > 0 ? `category=${categoryId}&` : ''}&sortby=${sortType}&order=asc`)
     .then((res) =>{return res.json()} )
     .then((arr) => {
       setPizzas(arr)
@@ -39,8 +50,6 @@ function Home() {
    return false;
   }).map((obj) => ( <PizzaBlock key={nanoid()} {...obj}/>));
  
-
-
  
   const skeletons = [... new Array(8)].map(() => <Skeleton key={nanoid()}/>);
 
@@ -48,8 +57,8 @@ return (
       <div className="content">
         <div className="container">
           <div className="content__top">
-            <Categories value={categoryId} onClickCategory={(id) => setCategoryId(id)}/>
-            <Sort value={sortType} onChangeSort={(id) => setSortType(id)}/>
+            <Categories value={categoryId} onClickCategory={onClickCategory}/>
+            <Sort/>
           </div>
           <h2 className="content__title">Все пиццы</h2>
            <div className="content__items"> 

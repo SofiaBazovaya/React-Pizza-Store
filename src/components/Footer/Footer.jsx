@@ -1,9 +1,8 @@
 import styles from './Footer.module.scss';
 import { NavLink } from 'react-router-dom'
 
-
 export default function Footer ()  {
-  const currentYear = new Date().getFullYear();
+
 
   return (
       <footer className={styles.footer}>
