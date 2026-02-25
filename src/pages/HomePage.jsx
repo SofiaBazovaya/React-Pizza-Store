@@ -3,6 +3,7 @@ import { SearchContext } from '../context/SearchContext';
 import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
 import { setCategoryId } from '../redux/slices/filterSlice';
+import axios from 'axios';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
@@ -30,16 +31,24 @@ function Home() {
   }
   
 
-  //backend не сообщает сколько есть страниц
+  //backend mockapi не сообщает сколько есть страниц
   useEffect(()=>{
     setIsLoading(true)
+    /*
     fetch(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryId > 0 ? `category=${categoryId}&` : ''}&sortby=${sortType}&order=asc`)
     .then((res) =>{return res.json()} )
     .then((arr) => {
       setPizzas(arr)
       setIsLoading(false)
     })
-    window.scrollTo(0, 0);
+    */
+     axios. get(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryId > 0 ? `category=${categoryId}&` : ''}&sortby=${sortType}&order=asc`)
+    .then(res => {
+      setPizzas(res.data);
+      setIsLoading(false);
+    });
+    
+     window.scrollTo(0, 0);
   }, [categoryId, sortType, searchValue, currentPage])
 
   // фильтрация не чере backend, т.к. mockapi не очень корректно работает  с ней
