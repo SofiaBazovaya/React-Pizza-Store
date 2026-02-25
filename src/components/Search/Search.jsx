@@ -1,18 +1,34 @@
-import { useContext, useRef } from "react"
+import { useContext, useRef, useCallback, useState } from "react";
 import { SearchContext } from "../../context/SearchContext";
-import styles from "./Search.module.scss"
+import debounce from "lodash.debounce";
+import styles from "./Search.module.scss";
 
 
 export default function Search(){
+  const [value, setValue]=useState();
   const {searchValue, setSearchValue} = useContext(SearchContext);
+
+  const updateSearchValue = useCallback(
+    debounce ((str) => {
+      setSearchValue(str)
+    }, 250),
+    []
+  )
+
+    const onChangeInput = (event) =>{
+    setValue(event.target.value)
+    updateSearchValue(event.target.value)
+  }
 
   const inputRef = useRef()
   
   const onCLickClear = () =>{
+    setValue('')
     setSearchValue('')
     inputRef.current.focus();
   }
 
+  
   return (
           <div className={styles.root} >
             <svg className={styles.iconSearch} xmlns="http://www.w3.org/2000/svg" id="Outline" viewBox="0 0 24 24">
@@ -20,8 +36,8 @@ export default function Search(){
             </svg>
             <input 
             ref = {inputRef}
-            value={searchValue}
-            onChange={(event) => setSearchValue(event.target.value)}
+            value={value}
+            onChange={onChangeInput}
             className={styles.input}
             placeholder="Поиск пиццы" 
             />
