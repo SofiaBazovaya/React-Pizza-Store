@@ -5,7 +5,13 @@
 @use 'components/_all.scss';
 
 body {
-  background-color: variables.$background;
+    background-color: #ffdf8e;
+      background-image:
+        linear-gradient(to bottom,
+          rgb(248, 157, 112) 0%,
+          rgb(245, 200, 138) 50%,
+          rgb(247, 230, 180) 100%);
+      background-attachment: fixed;
 }
 
 .wrapper {
