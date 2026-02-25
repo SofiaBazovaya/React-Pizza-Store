@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { SearchContext } from '../context/SearchContext';
 import { nanoid } from 'nanoid';
 import { useSelector, useDispatch } from 'react-redux';
-import { setCategoryId } from '../redux/slices/filterSlice';
+import { setCategoryId, setCurrentPage } from '../redux/slices/filterSlice';
 import axios from 'axios';
 import Categories from '../components/Categories';
 import Sort from '../components/Sort';
@@ -15,9 +15,10 @@ function Home() {
   const {searchValue} = useContext(SearchContext);
   const [pizzas, setPizzas] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
-  
-  const {categoryId, sort} = useSelector(state => state.filter);
+  const [totalCount, setTotalCount] = useState(0); 
+  const limit = 8; // кол-во пицц на стр
+
+  const {categoryId, sort, currentPage} = useSelector(state => state.filter);
   const sortType = sort.sortProperty;
   /* ИЛИ
   const categoryId = useSelector(state => state.filter.categoryId);
@@ -28,28 +29,44 @@ function Home() {
 
   const onClickCategory =(id)=>{
       dispatch(setCategoryId (id))
+      dispatch(setCurrentPage(1))
   }
   
+  const onChangePage = (number) =>{
+    dispatch(setCurrentPage(number))
+  }
 
   //backend mockapi не сообщает сколько есть страниц
-  useEffect(()=>{
-    setIsLoading(true)
-    /*
-    fetch(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryId > 0 ? `category=${categoryId}&` : ''}&sortby=${sortType}&order=asc`)
-    .then((res) =>{return res.json()} )
-    .then((arr) => {
-      setPizzas(arr)
-      setIsLoading(false)
-    })
-    */
-     axios. get(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryId > 0 ? `category=${categoryId}&` : ''}&sortby=${sortType}&order=asc`)
-    .then(res => {
-      setPizzas(res.data);
-      setIsLoading(false);
-    });
+useEffect(() => {
+  const fetchPizzas = async () => {
+    setIsLoading(true);
     
-     window.scrollTo(0, 0);
-  }, [categoryId, sortType, searchValue, currentPage])
+    const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
+
+    try {
+      // Запускаем оба запроса одновременно
+      const [totalRes, itemsRes] = await Promise.all([
+        axios.get(`https://6984cb04885008c00db25a56.mockapi.io/items?${categoryQuery}${search}`),
+        axios.get(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryQuery}${search}&sortBy=${sortType}&order=asc`)
+      ]);
+
+      setTotalCount(totalRes.data.length);
+      setPizzas(itemsRes.data);
+    } catch (error) {
+      console.error('Ошибка при загрузке данных', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  fetchPizzas();
+  window.scrollTo(0, 0);
+}, [categoryId, sortType, searchValue, currentPage]);
+
+// Вычисляем количество страниц
+const totalPages = Math.ceil(totalCount / limit);
+
 
   // фильтрация не чере backend, т.к. mockapi не очень корректно работает  с ней
   const pizzasBlocks = pizzas.filter(obj => {
@@ -74,7 +91,13 @@ return (
             { isLoading ? skeletons : pizzasBlocks } 
            </div>
         </div>
-        <Pagination onChangePage={number => setCurrentPage(number)}/>
+       {totalPages > 1 && (
+          <Pagination 
+           currentPage={currentPage} 
+           onChangePage={onChangePage} 
+           pageCount={totalPages} 
+          />
+        )}
       </div>
   );
 }
