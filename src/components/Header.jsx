@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
+import { IconShoppingCart } from '@tabler/icons-react';
 import logo from '../assets/img/pizza-logo2.svg'
-import shoppingCart from '../assets/img/iconfinder_shopping-cart.svg'
 import Search from './Search/Search'
 
 export default function Header(){
+  const {items, totalPrice} = useSelector(state => state.cart)
+  const selectedCartCount =items.reduce((sum, obj) => sum + obj.count, 0);
+
   return (
         <div className="header">
           <div className="container">
@@ -19,18 +23,13 @@ export default function Header(){
           <Search/>
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
-              <span>520 ₽</span>
+              <span>{totalPrice} ₽</span>
 
               <div className="button__delimiter" />
 
-              <img
-                width="18"
-                height="18"
-                src={shoppingCart}
-                alt="shopping-cart icon"
-              />
+              <IconShoppingCart size={20}/>
 
-              <span style ={{marginLeft: "8px"}}>3</span>
+              <span style ={{marginLeft: "8px"}}>{selectedCartCount}</span>
             </Link>
           </div>
         </div>

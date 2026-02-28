@@ -160,21 +160,19 @@ body {
     span {
       display: inline-block;
       margin-left: 7px;
-      color: #b6b6b6;
       font-size: 18px;
     }
 
     span,
-    svg,
-    path {
+    svg
+     {
       transition: all variables.$duration ease-in-out;
+      color: #b6b6b6;
     }
 
     &:hover {
       svg {
-        path {
           stroke: color.adjust($color: #b6b6b6, $lightness: -50%);
-        }
       }
       span {
         color: color.adjust($color: #b6b6b6, $lightness: -50%);

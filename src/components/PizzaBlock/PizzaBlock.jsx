@@ -1,14 +1,34 @@
 import { useState } from "react"
+import { useSelector, useDispatch} from 'react-redux'
+import {IconPlus} from '@tabler/icons-react';
 import { nanoid } from 'nanoid'
+import {addItem} from '../../redux/slices/cartSlice'
+
+  const typeNames =['тонкое', 'традиционное']
 
 
-export default function PizzaBlock({title , price, sizes, types, imageUrl }){
-
-  const typeName =['тонкое', 'традиционное']
-  const [pizzaCount, setPizzaCount] = useState(0);
-  const [activeType, setActiveType] = useState(types[1 ]);
+export default function PizzaBlock({id, title , price, sizes, types, imageUrl }){
+  const [activeType, setActiveType] = useState(types[1]);
   const [activeSize, setActiveSize] = useState(sizes.length - 1);
 
+  const dispatch = useDispatch();
+  const addedCount = useSelector(state =>
+  state.cart.items
+    .filter(obj => obj.id === id)
+    .reduce((sum, obj) => sum + obj.count, 0)
+);
+
+  const onClickAdd = () =>{
+    const item = {
+      id,
+      title,
+      price,
+      imageUrl,
+      type: typeNames[activeType],
+      sizes: sizes[activeSize],
+    };
+    dispatch(addItem(item))
+  }
 
   return (
       <div className="pizza-block-wrapper">
@@ -26,7 +46,7 @@ export default function PizzaBlock({title , price, sizes, types, imageUrl }){
                 <ul>
                   {
                      types.map(type => 
-                     <li key={nanoid()} onClick={()=> setActiveType(type)} className={activeType === type? "active" : ""}>{typeName[type]}</li>)
+                     <li key={nanoid()} onClick={()=> setActiveType(type)} className={activeType === type? "active" : ""}>{typeNames[type]}</li>)
                   }
 
                 </ul>
@@ -44,10 +64,11 @@ export default function PizzaBlock({title , price, sizes, types, imageUrl }){
 
                 <button 
                 className="button button--outline button--add"
-                onClick={() => setPizzaCount(pizzaCount + 1)}
+                onClick={onClickAdd}
                 >
+                  <IconPlus size={20}/>
                   <span>Добавить</span>
-                  <i>{pizzaCount}</i>
+                 {addedCount > 0 &&  <i>{addedCount}</i>}
                 </button>
               </div>
             </div>
