@@ -34,7 +34,7 @@ return (
           </div>
 
             <div className="content__items">
-             { items.map(item =><CartItem key={item.id} {...item}/>)}    
+             { items.map(item =><CartItem key={`${item.id}_${item.type}_${item.sizes}`} {...item}/>)}    
             </div>
 
                 <div className="cart__bottom">

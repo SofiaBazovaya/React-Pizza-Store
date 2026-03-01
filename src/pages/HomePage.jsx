@@ -19,7 +19,9 @@ import Pagination from '../components/Pagination/Pagination';
 function HomePage() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const isSearch = useRef(false);
+  // Флаги для контроля очередности
+  const isSearch = useRef(false); // параметры в URL
+  const isMounted = useRef(false); // первый рендер
 
   const {searchValue} = useContext(SearchContext);
   const [pizzas, setPizzas] = useState([]);
@@ -39,78 +41,88 @@ function HomePage() {
     dispatch(setCurrentPage(number))
   }
 
-    //функция для загрузки пицц с backend (mockapi не сообщает сколько есть страниц) 
-   const fetchPizzas = async () => {
-     setIsLoading(true);
-    
-     const categoryQuery = categoryId > 0 ? `category=${categoryId}` : '';
-     const search = searchValue ? `&search=${searchValue}` : '';
+  //функция для загрузки пицц с backend (mockapi не сообщает сколько есть страниц) 
+  const fetchPizzas = async () => {
+    setIsLoading(true);
 
-     try {
-         const [totalRes, itemsRes] = await Promise.all([
-          axios.get(`https://6984cb04885008c00db25a56.mockapi.io/items?${categoryQuery}${search}`), //для подсчета количества страниц
-          axios.get(`https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=8&${categoryQuery}${search}&sortBy=${sortType}&order=asc`)
-        ]);
+    const category = categoryId > 0 ? `category=${categoryId}` : '';
+    const search = searchValue ? `&search=${searchValue}` : '';
 
-        setTotalCount(totalRes.data.length);
-        setPizzas(itemsRes.data);
-      } catch (error) {
-        console.error('Ошибка при загрузке данных', error);
-      } finally {
-        setIsLoading(false);
-     }
-    };
+    try {
+      // Запрос для получения общего количества пицц (для пагинации)
+      const { data: allItems } = await axios.get(
+        `https://6984cb04885008c00db25a56.mockapi.io/items?${category}${search}`
+      );
+      setTotalCount(allItems.length);
 
-  //Если первый рендер, проверяем URL-параметры и сохраняем в редакс
-  useEffect(() =>{
-    if(window.location.search){
-      const params = qs.parse(window.location.search.substring(1))
-      const sort = list.find(obj => obj.sortProperty === params.sortProperty);
+      // Запрос конкретной страницы
+      const { data: items } = await axios.get(
+        `https://6984cb04885008c00db25a56.mockapi.io/items?page=${currentPage}&limit=${limit}&${category}${search}&sortBy=${sortType}&order='asc`
+      );
+      
+      setPizzas(items);
+    } catch (error) {
+      console.error('Ошибка загрузки:', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
-      dispatch(setFilters({...params, sort}))
-      isSearch.current = true;
-      }
-   }, [])
-
-  // Если изменили параметры -> вшиваем их в URL
+  // Если был первый рендер, проверяем URL и сохраняем в Redux
   useEffect(() => {
-  if (isSearch.current) return; //без параметров при первом рендере
-    // Логика формирования строки
-    const queryString = qs.stringify({
-      sortProperty: sortType,
-      categoryId,
-      currentPage,
-  });
-  //дефолтный фильтр без параметров в url
-   if (categoryId === 0 && sortType === 'rating' && currentPage === 1) {
-    navigate('/');
-  } else {
-    navigate(`?${queryString}`);
-  }
-   ;
-}, [categoryId, sortType, currentPage]);
+    if (window.location.search) {
+      const params = qs.parse(window.location.search.substring(1));
+      const sort = list.find((obj) => obj.sortProperty === params.sortProperty);
 
-  // Если первый рендер, запрашиваем пиццы
+      dispatch(setFilters({ ...params, sort }));
+      
+      // Ставим флаг, что мы подгрузили данные из поиска
+      isSearch.current = true;
+    }
+  }, []);
+
+  // Запрос данных
   useEffect(() => {
     window.scrollTo(0, 0);
 
-    fetchPizzas();
-    
+    // Если это первый рендер и в URL были параметры, ждем пока Redux обновится
+    if (!isSearch.current) {
+      fetchPizzas();
+    }
+
     isSearch.current = false;
-   }, [categoryId, sortType, searchValue, currentPage]);
+  }, [categoryId, sortType, searchValue, currentPage]);
+
+  //Вшиваем параметры в URL при изменении фильтров
+  useEffect(() => {
+  if (isMounted.current) {
+    // Проверяем, являются ли фильтры "дефолтными"
+    const isDefault = 
+      categoryId === 0 && 
+      sortType === 'rating' && 
+      currentPage === 1;
+
+    if (isDefault) {
+      // Если всё по умолчанию — чистим URL
+      navigate('/');
+    } else {
+      // формируем строку параметров
+      const queryString = qs.stringify({
+        sortProperty: sortType,
+        categoryId,
+        currentPage,
+      });
+      navigate(`?${queryString}`);
+    }
+  }
+  
+  isMounted.current = true;
+}, [categoryId, sortType, currentPage]);
 
   // Вычисляем количество страниц
   const totalPages = Math.ceil(totalCount / limit);
 
-
-  // фильтрация не чере backend, т.к. mockapi не очень корректно работает  с ней
-  const pizzasBlocks = pizzas.filter(obj => {
-   if(obj.title.toLowerCase().includes(searchValue)) {
-    return true;
-   }
-   return false;
-  }).map((obj) => ( <PizzaBlock key={obj.key} {...obj}/>));
- 
+  const pizzasBlocks = pizzas.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [... new Array(limit)].map((_,i) => <Skeleton key={i}/>);
 
 return (

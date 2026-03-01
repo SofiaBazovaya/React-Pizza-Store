@@ -36,7 +36,7 @@ export default function Search(){
             </svg>
             <input 
             ref = {inputRef}
-            value={value}
+            value={value || ''}
             onChange={onChangeInput}
             className={styles.input}
             placeholder="Поиск пиццы" 
