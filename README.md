@@ -9,9 +9,10 @@
 - Routing: React Router v7 (Синхронизация фильтров с URL через qs)
 - Styling: SCSS, CSS Modules, Адаптивная верстка
 - API Layer: Axios (Интеграция с MockAPI)
-- Оптимизация: - lodash.debounce — минимизация лишних запросов при поиске.
-  - react-content-loader — Skeleton UI для комфортного ожидания загрузки.
-  - react-paginate — удобная навигация по страницам каталога.
+- Оптимизация:
+  - react-content-loader - Skeleton UI для комфортного ожидания загрузки.
+  - react-paginate - удобная навигация по страницам каталога.
+  - lodash.debounce - минимизация лишних запросов при поиске.
 - Инструменты: Vite, nanoid, Tabler Icons.
 
 ## Ключевые архитектурные решения:
