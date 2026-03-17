@@ -1,9 +1,8 @@
-import { useEffect, useContext, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { SearchContext } from '../context/SearchContext';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { fetchPizzas } from '../redux/slices/pizzasSlice';
 import { list } from '../components/Sort';
@@ -22,10 +21,8 @@ function HomePage() {
   const isSearch = useRef(false); // параметры в URL
   const isMounted = useRef(false); // первый рендер
 
-  const {searchValue} = useContext(SearchContext);
-
   const {items, status, totalCount } = useSelector((state) => state.pizza);
-  const {categoryId, sort, currentPage} = useSelector(state => state.filter);
+  const {categoryId, sort, currentPage, searchValue} = useSelector(state => state.filter);
   
 
   const sortType = sort.sortProperty;

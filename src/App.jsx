@@ -9,15 +9,11 @@ import AboutPage from './pages/About/AboutPage';
 import DeliveryPage from './pages/Delivery/DeliveryPage';
 import ContactsPage from './pages/Contacts/ContactsPage';
 import Footer from './components/Footer/Footer';
-import { SearchContext } from './context/SearchContext';
-
 
 function App() {
-  const [searchValue, setSearchValue] = useState('')
 
 return (
     <div className="wrapper">
-      <SearchContext.Provider value={{searchValue, setSearchValue}}>
       <Header/>
       <Routes>
         <Route path="/" element={<HomePage/>}/>
@@ -27,7 +23,6 @@ return (
         <Route path="/contacts" element={<ContactsPage />} />
         <Route path="*" element={<NotFoundPage/>}/>
       </Routes>
-      </SearchContext.Provider>
       <Footer/>
     </div>
   );
