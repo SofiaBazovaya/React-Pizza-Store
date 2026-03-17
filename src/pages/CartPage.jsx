@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch} from 'react-redux'
 import { IconShoppingCart } from '@tabler/icons-react';
-import { clearItem } from '../redux/slices/cartSlice';
+import { clearItem, selectCart } from '../redux/slices/cartSlice';
 import { IconTrash } from "@tabler/icons-react";
 import CartItem from "../components/CartItem";
 import CartEmpty from "../components/CartEmpty";
 
 function CartPage() {
   const dispatch = useDispatch();
-  const {items, totalPrice} = useSelector(state => state.cart)
+  const {items, totalPrice} = useSelector(selectCart)
   const selectedCartCount =items.reduce((sum, obj) => sum + obj.count, 0);
 
     const onClickClear = () => {

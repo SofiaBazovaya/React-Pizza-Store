@@ -3,7 +3,7 @@ import axios from 'axios';
 
 export const fetchPizzas = createAsyncThunk(
   'pizza/fetchPizzas',
-  async (params) => {
+  async (params, thunkAPI) => {
     const { currentPage, limit, category, search, sortType } = params;
     
     const [totalRes, itemsRes] = await Promise.all([    
@@ -46,6 +46,6 @@ export const pizzasSlice = createSlice({
         state.totalCount = 0;
       });
   },
-});
+}); 
 
 export default pizzasSlice.reducer;
