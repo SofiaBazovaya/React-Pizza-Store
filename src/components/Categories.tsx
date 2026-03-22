@@ -1,15 +1,20 @@
 import { nanoid } from 'nanoid'
 
 
-export default function Categories({value, onClickCategory}){
-  const categories =[
-    'Все',
-    'Мясные',
-    'Вегетарианские',
-    'Смешанные'
-  ]
+type CategoriesProps = {
+  value: number;
+  onClickCategory: (i: number) => void;
+}
+
+const categories =[
+  'Все',
+  'Мясные',
+  'Вегетарианские',
+  'Смешанные'
+]
 
 
+export default function Categories ({value, onClickCategory}: CategoriesProps){
   return (
                 <div className="categories">
               <ul>

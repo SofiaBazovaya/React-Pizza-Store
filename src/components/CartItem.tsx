@@ -2,7 +2,18 @@ import { useDispatch} from 'react-redux'
 import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
 
 
-export default function CartItem({id, title, price, count, type, sizes, imageUrl }){
+type CartItemProps = {
+  id: string;
+  title: string;
+  price: number;
+  count: number;
+  type: string;
+  sizes: number;
+  imageUrl: string;
+}
+
+
+export default function CartItem({id, title, price, count, type, sizes, imageUrl }: CartItemProps){
   const dispatch = useDispatch();
 
   const item = {id, type, sizes}

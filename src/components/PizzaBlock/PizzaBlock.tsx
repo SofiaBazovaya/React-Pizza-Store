@@ -4,15 +4,38 @@ import {IconPlus} from '@tabler/icons-react';
 import { nanoid } from 'nanoid'
 import {addItem} from '../../redux/slices/cartSlice'
 
-  const typeNames =['тонкое', 'традиционное']
+type PizzaBlockProps = {
+  id: string;
+  title: string;
+  price: number;
+  sizes: number[];
+  types: number[];
+  imageUrl: string;
+}
+
+type RootState = {
+  cart: {
+    items: Array<{
+      id: string;
+      title: string;
+      price: number;
+      size: number;
+      type: string;
+      imageUrl: string;
+      count: number;
+    }>
+  }
+}
+
+const typeNames =['тонкое', 'традиционное']
 
 
-export default function PizzaBlock({id, title , price, sizes, types, imageUrl }){
+export default function PizzaBlock({id, title, price, sizes, types, imageUrl }:PizzaBlockProps){
   const [activeType, setActiveType] = useState(types[1]);
   const [activeSize, setActiveSize] = useState(sizes.length - 1);
 
   const dispatch = useDispatch();
-  const addedCount = useSelector(state =>
+  const addedCount = useSelector((state: RootState) =>
   state.cart.items
     .filter(obj => obj.id === id)
     .reduce((sum, obj) => sum + obj.count, 0)

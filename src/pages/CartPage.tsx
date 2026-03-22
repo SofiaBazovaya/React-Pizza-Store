@@ -9,8 +9,8 @@ import CartEmpty from "../components/CartEmpty";
 function CartPage() {
   const dispatch = useDispatch();
   const {items, totalPrice} = useSelector(selectCart)
-  const selectedCartCount =items.reduce((sum, obj) => sum + obj.count, 0);
-
+  const selectedCartCount =items.reduce((sum:number, obj: any) => sum + obj.count, 0);
+ 
     const onClickClear = () => {
          dispatch( clearItem())
     }
@@ -34,7 +34,7 @@ return (
           </div>
 
             <div className="content__items">
-             { items.map(item =><CartItem key={`${item.id}_${item.type}_${item.sizes}`} {...item}/>)}    
+             { items.map((item:any )=><CartItem key={`${item.id}_${item.type}_${item.sizes}`} {...item}/>)}    
             </div>
 
                 <div className="cart__bottom">

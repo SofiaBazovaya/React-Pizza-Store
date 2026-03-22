@@ -1,7 +1,8 @@
+import { SubmitEvent} from 'react';
 import styles from './ContactsPage.module.scss';
 
 function ContactsPage ()  {
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: SubmitEvent<HTMLFormElement>) => {
     e.preventDefault();
     alert('Сообщение отправлено!');
   };
@@ -19,7 +20,7 @@ function ContactsPage ()  {
               <form className={styles.form} onSubmit={handleSubmit}>
                 <h3>Напишите нам</h3>
                 <input type="text" placeholder="Ваше имя" required />
-                <textarea placeholder="Ваше сообщение" rows="5" required></textarea>
+                <textarea placeholder="Ваше сообщение" rows={5} required></textarea>
                 <button type="submit" className="button">Отправить</button>
               </form>
             </div>

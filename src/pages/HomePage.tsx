@@ -21,19 +21,19 @@ function HomePage() {
   const isSearch = useRef(false); // параметры в URL
   const isMounted = useRef(false); // первый рендер
 
-  const {items, status, totalCount } = useSelector((state) => state.pizza);
-  const {categoryId, sort, currentPage, searchValue} = useSelector(state => state.filter);
+  const {items, status, totalCount } = useSelector((state: any) => state.pizza);
+  const {categoryId, sort, currentPage, searchValue} = useSelector((state: any)  => state.filter);
   
 
   const sortType = sort.sortProperty;
   const limit = 8; // кол-во пицц на стр
 
-  const onClickCategory =(id)=>{
+  const onClickCategory =(id: number)=>{
       dispatch(setCategoryId (id))
       dispatch(setCurrentPage(1))
   }
   
-  const onChangePage = (number) =>{
+  const onChangePage = (number: number) =>{
     dispatch(setCurrentPage(number))
   }
 
@@ -43,6 +43,7 @@ function HomePage() {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
+      //@ts-ignore
       fetchPizzas({
         currentPage,
         limit,
@@ -88,7 +89,7 @@ function HomePage() {
   // Вычисляем количество страниц
   const totalPages = Math.ceil(totalCount / limit);
 
-  const pizzasBlocks = items.map((obj) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzasBlocks = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [... new Array(limit)].map((_,i) => <Skeleton key={i}/>);
 
 return (

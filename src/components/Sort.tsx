@@ -3,25 +3,46 @@ import { nanoid } from 'nanoid'
 import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice";
 
-export const list = [{name: 'популярности', sortProperty: 'rating'}, {name: 'цене', sortProperty: 'price'} , {name: 'алфавиту', sortProperty: 'title'}]
+
+type ListItem = {
+    name: string;
+    sortProperty: string;
+}
+
+type RootState = {
+    filter: {
+        sort: {
+            name: string;
+            sortProperty: string;
+        }
+    }
+}
+
+
+export const list: ListItem[] = [
+  {name: 'популярности', sortProperty: 'rating'}, 
+  {name: 'цене', sortProperty: 'price'} , 
+  {name: 'алфавиту', sortProperty: 'title'}
+]
+
 
 export default function Sort(){
   const dispatch = useDispatch();
-  const sortRef = useRef();
-  const sort = useSelector(state => state.filter.sort)
+  const sortRef = useRef<HTMLDivElement>(null);
+  const sort = useSelector((state: RootState) => state.filter.sort)
 
 
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   
-  const onClickType = (obj) => {
+  const onClickType = (obj:ListItem) => {
     dispatch(setSort(obj));
     setIsVisiblePopup(false);
   }
 
   // клик вне pop-up сортировки
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (!sortRef.current?.contains(event.target)) {
+    const handleClickOutside = (event: Event) => {
+      if (sortRef.current && !sortRef.current.contains(event.target as Node)) {
         setIsVisiblePopup(false);
       }
     };
@@ -53,7 +74,6 @@ export default function Sort(){
                   ))}  
                 </ul>
               </div>}
-           
             </div>
   )
 }

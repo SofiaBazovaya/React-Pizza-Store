@@ -8,7 +8,7 @@ import Search from './Search/Search'
 
 export default function Header(){
   const {items, totalPrice} = useSelector(selectCart)
-  const selectedCartCount =items.reduce((sum, obj) => sum + obj.count, 0);
+  const selectedCartCount =items.reduce((sum: number, obj: any) => sum + obj.count, 0);
 
   return (
         <div className="header">
