@@ -1,14 +1,14 @@
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
-import { selectCart } from '../redux/slices/cartSlice';
+import { CartItemInput, selectCart } from '../redux/slices/cartSlice';
 import { IconShoppingCart } from '@tabler/icons-react';
 import logo from '../assets/img/pizza-logo2.svg'
 import Search from './Search/Search'
+import { useAppSelector } from '../redux/store';
 
 
 export default function Header(){
-  const {items, totalPrice} = useSelector(selectCart)
-  const selectedCartCount =items.reduce((sum: number, obj: any) => sum + obj.count, 0);
+  const {items, totalPrice} = useAppSelector(selectCart)
+  const selectedCartCount =items.reduce((sum: number, obj: CartItemInput) => sum + obj.count, 0);
 
   return (
         <div className="header">

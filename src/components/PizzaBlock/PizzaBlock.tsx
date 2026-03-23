@@ -1,8 +1,9 @@
 import { useState } from "react"
-import { useSelector, useDispatch} from 'react-redux'
 import {IconPlus} from '@tabler/icons-react';
 import { nanoid } from 'nanoid'
 import {addItem} from '../../redux/slices/cartSlice'
+import {CartItemInput} from "../../redux/slices/cartSlice";
+import { RootState, useAppDispatch, useAppSelector } from "../../redux/store";
 
 type PizzaBlockProps = {
   id: string;
@@ -13,20 +14,6 @@ type PizzaBlockProps = {
   imageUrl: string;
 }
 
-type RootState = {
-  cart: {
-    items: Array<{
-      id: string;
-      title: string;
-      price: number;
-      size: number;
-      type: string;
-      imageUrl: string;
-      count: number;
-    }>
-  }
-}
-
 const typeNames =['тонкое', 'традиционное']
 
 
@@ -34,21 +21,22 @@ export default function PizzaBlock({id, title, price, sizes, types, imageUrl }:P
   const [activeType, setActiveType] = useState(types[1]);
   const [activeSize, setActiveSize] = useState(sizes.length - 1);
 
-  const dispatch = useDispatch();
-  const addedCount = useSelector((state: RootState) =>
+  const dispatch = useAppDispatch();
+  const addedCount = useAppSelector((state: RootState) =>
   state.cart.items
     .filter(obj => obj.id === id)
     .reduce((sum, obj) => sum + obj.count, 0)
 );
 
   const onClickAdd = () =>{
-    const item = {
+    const item: CartItemInput = {
       id,
       title,
       price,
       imageUrl,
       type: typeNames[activeType],
       sizes: sizes[activeSize],
+      count: 0,
     };
     dispatch(addItem(item))
   }

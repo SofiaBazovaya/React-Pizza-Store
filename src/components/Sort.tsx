@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect} from "react"
 import { nanoid } from 'nanoid'
-import { useSelector, useDispatch } from "react-redux";
 import { setSort } from "../redux/slices/filterSlice";
+import { useAppDispatch, useAppSelector } from "../redux/store";
 
 
 type ListItem = {
     name: string;
-    sortProperty: string;
+    sortProperty: 'rating' | 'price' | 'title';
 }
 
 type RootState = {
@@ -27,9 +27,9 @@ export const list: ListItem[] = [
 
 
 export default function Sort(){
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
-  const sort = useSelector((state: RootState) => state.filter.sort)
+  const sort = useAppSelector((state: RootState) => state.filter.sort)
 
 
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);

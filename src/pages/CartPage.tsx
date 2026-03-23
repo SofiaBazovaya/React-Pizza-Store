@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch} from 'react-redux'
-import { IconShoppingCart } from '@tabler/icons-react';
+import { IconShoppingCart, IconTrash } from '@tabler/icons-react';
 import { clearItem, selectCart } from '../redux/slices/cartSlice';
-import { IconTrash } from "@tabler/icons-react";
-import CartItem from "../components/CartItem";
+import CartItem from "../components/CartItemBlock";
 import CartEmpty from "../components/CartEmpty";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+
 
 function CartPage() {
-  const dispatch = useDispatch();
-  const {items, totalPrice} = useSelector(selectCart)
-  const selectedCartCount =items.reduce((sum:number, obj: any) => sum + obj.count, 0);
+  const dispatch = useAppDispatch();
+  const {items, totalPrice} = useAppSelector(selectCart)
+  const selectedCartCount =items.reduce((sum, obj) => sum + obj.count, 0);
  
     const onClickClear = () => {
          dispatch( clearItem())
@@ -34,7 +34,7 @@ return (
           </div>
 
             <div className="content__items">
-             { items.map((item:any )=><CartItem key={`${item.id}_${item.type}_${item.sizes}`} {...item}/>)}    
+             { items.map((item)=><CartItem key={`${item.id}_${item.type}_${item.sizes}`} {...item}/>)}    
             </div>
 
                 <div className="cart__bottom">

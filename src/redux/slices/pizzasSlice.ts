@@ -1,9 +1,44 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-export const fetchPizzas = createAsyncThunk(
+type FetchPizzasArgs = {
+  currentPage: number;
+  limit: number;
+  category: string;
+  search: string;
+  sortType: string;
+}
+
+export type Pizza = {
+  id: string;
+  title: string;
+  price: number;
+  sizes: number[];
+  types: number[];
+  imageUrl: string;
+}
+
+export type FetchPizzasResponse = {
+  items: Pizza[];
+  totalCount: number;
+}
+
+export enum Status {
+  LOADING = 'loading',
+  SUCCESS = 'success',
+  ERROR = 'error',
+}
+
+interface PizzaSliceState {
+  items: Pizza[],
+  totalCount: number, 
+  status: Status, 
+}
+
+
+export const fetchPizzas = createAsyncThunk<FetchPizzasResponse, FetchPizzasArgs>(
   'pizza/fetchPizzas',
-  async (params, thunkAPI) => {
+  async (params) => {
     const { currentPage, limit, category, search, sortType } = params;
     
     const [totalRes, itemsRes] = await Promise.all([    
@@ -19,10 +54,10 @@ export const fetchPizzas = createAsyncThunk(
   }
 );
 
-const initialState = {
+const initialState: PizzaSliceState = {
   items: [],
   totalCount: 0, 
-  status: 'loading', 
+  status: Status.LOADING, 
 };
 
 export const pizzasSlice = createSlice({
@@ -32,16 +67,17 @@ export const pizzasSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchPizzas.pending, (state) => {
-        state.status = 'loading';
+        state.status = Status.LOADING;
         state.items = [];
+        state.totalCount = 0;
       })
-      .addCase(fetchPizzas.fulfilled, (state, action) => {
+      .addCase(fetchPizzas.fulfilled, (state, action: PayloadAction<FetchPizzasResponse>) => {
         state.items = action.payload.items;
         state.totalCount = action.payload.totalCount; // Сохраняем кол-во
-        state.status = 'success';
+        state.status = Status.SUCCESS;
       })
       .addCase(fetchPizzas.rejected, (state) => {
-        state.status = 'error';
+        state.status = Status.ERROR;
         state.items = [];
         state.totalCount = 0;
       });

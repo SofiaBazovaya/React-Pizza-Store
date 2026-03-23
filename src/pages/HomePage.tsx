@@ -1,10 +1,10 @@
 import { useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
-import { useSelector, useDispatch } from 'react-redux';
 
+import { RootState, useAppDispatch, useAppSelector } from '../redux/store';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
-import { fetchPizzas } from '../redux/slices/pizzasSlice';
+import { fetchPizzas, Pizza } from '../redux/slices/pizzasSlice';
 import { list } from '../components/Sort';
 
 import Categories from '../components/Categories';
@@ -16,13 +16,13 @@ import Pagination from '../components/Pagination/Pagination';
 
 function HomePage() {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   // Флаги для контроля очередности
   const isSearch = useRef(false); // параметры в URL
   const isMounted = useRef(false); // первый рендер
 
-  const {items, status, totalCount } = useSelector((state: any) => state.pizza);
-  const {categoryId, sort, currentPage, searchValue} = useSelector((state: any)  => state.filter);
+  const {items, status, totalCount } = useAppSelector((state: RootState) => state.pizza);
+  const {categoryId, sort, currentPage, searchValue} = useAppSelector((state: RootState)  => state.filter);
   
 
   const sortType = sort.sortProperty;
@@ -43,7 +43,6 @@ function HomePage() {
     const search = searchValue ? `&search=${searchValue}` : '';
 
     dispatch(
-      //@ts-ignore
       fetchPizzas({
         currentPage,
         limit,
@@ -67,8 +66,17 @@ function HomePage() {
     if (window.location.search) {
       const params = qs.parse(window.location.search.substring(1));
       const sortObj = list.find((obj) => obj.sortProperty === params.sortProperty);
-      dispatch(setFilters({ ...params, sort: sortObj }));
-      isSearch.current = true;
+
+      // объект с правильными типами (т.е. соответствует типу FilterSliceState из filterSlice.ts), т.к. qs.parse отдает строки, а мы ожидаем числа и строки
+      const filters = {
+        categoryId: params.categoryId ? Number(params.categoryId) : 0,
+        currentPage: params.currentPage ? Number(params.currentPage) : 1,
+        searchValue: params.searchValue ? String(params.searchValue) : '',
+        sort: sortObj || list[0], // если sortObj не найден, используем значение по умолчанию
+      };
+          
+        dispatch(setFilters(filters));
+        isSearch.current = true;
     }
   }, []);
 
@@ -89,7 +97,7 @@ function HomePage() {
   // Вычисляем количество страниц
   const totalPages = Math.ceil(totalCount / limit);
 
-  const pizzasBlocks = items.map((obj: any) => <PizzaBlock key={obj.id} {...obj} />);
+  const pizzasBlocks = items.map((obj: Pizza) => <PizzaBlock key={obj.id} {...obj} />);
   const skeletons = [... new Array(limit)].map((_,i) => <Skeleton key={i}/>);
 
 return (
