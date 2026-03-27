@@ -1,40 +1,26 @@
-import { useState, useRef, useEffect} from "react"
+import { useState, useRef, useEffect, memo} from "react"
 import { nanoid } from 'nanoid'
-import { setSort } from "../redux/slices/filterSlice";
-import { useAppDispatch, useAppSelector } from "../redux/store";
+import { setSort, Sort } from "../redux/slices/filterSlice";
+import { useAppDispatch } from "../redux/store";
 
-
-type ListItem = {
-    name: string;
-    sortProperty: 'rating' | 'price' | 'title';
-}
-
-type RootState = {
-    filter: {
-        sort: {
-            name: string;
-            sortProperty: string;
-        }
-    }
-}
-
-
-export const list: ListItem[] = [
+export const list: Sort[] = [
   {name: 'популярности', sortProperty: 'rating'}, 
   {name: 'цене', sortProperty: 'price'} , 
   {name: 'алфавиту', sortProperty: 'title'}
 ]
 
+type SortPopupProps = {
+  value: Sort
+}
 
-export default function Sort(){
+const SortPopup = memo (({value}: SortPopupProps) => {
   const dispatch = useAppDispatch();
   const sortRef = useRef<HTMLDivElement>(null);
-  const sort = useAppSelector((state: RootState) => state.filter.sort)
 
 
   const [isVisiblePopup, setIsVisiblePopup] = useState(false);
   
-  const onClickType = (obj:ListItem) => {
+  const onClickType = (obj:Sort) => {
     dispatch(setSort(obj));
     setIsVisiblePopup(false);
   }
@@ -58,7 +44,7 @@ export default function Sort(){
             <div ref={sortRef} className="sort">
               <div className="sort__label">
                 <b>Сортировка по:</b>
-                <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{sort.name}</span>
+                <span onClick={() => setIsVisiblePopup(!isVisiblePopup)}>{value.name}</span>
               </div>
               {isVisiblePopup &&   
               <div className="sort__popup">
@@ -67,7 +53,7 @@ export default function Sort(){
                   list.map( (obj)=> (
                 <li 
                 key={nanoid()} 
-                className={sort.sortProperty === obj.sortProperty ? "active" : "" } 
+                className={value.sortProperty === obj.sortProperty ? "active" : "" } 
                 onClick={() => onClickType(obj)}>
                   {obj.name}
                 </li>
@@ -77,3 +63,5 @@ export default function Sort(){
             </div>
   )
 }
+)
+export default SortPopup;

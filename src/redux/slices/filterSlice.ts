@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction  } from '@reduxjs/toolkit'
 
-type Sort = {
+export type Sort = {
   name: string; 
   sortProperty: 'rating' | 'price' | 'title';
 }

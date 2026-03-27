@@ -1,14 +1,14 @@
-import { useEffect, useRef } from 'react';
+import { useCallback, useEffect, useRef } from 'react';
 import qs from 'qs';
 import { useNavigate } from 'react-router-dom';
 
 import { RootState, useAppDispatch, useAppSelector } from '../redux/store';
 import { setCategoryId, setCurrentPage, setFilters } from '../redux/slices/filterSlice';
 import { fetchPizzas, Pizza } from '../redux/slices/pizzasSlice';
-import { list } from '../components/Sort';
+import { list } from '../components/SortPopup';
 
 import Categories from '../components/Categories';
-import Sort from '../components/Sort';
+import SortPopup from '../components/SortPopup';
 import PizzaBlock from '../components/PizzaBlock/PizzaBlock';
 import Skeleton from '../components/PizzaBlock/Skeleton';
 import Pagination from '../components/Pagination/Pagination';
@@ -28,10 +28,11 @@ function HomePage() {
   const sortType = sort.sortProperty;
   const limit = 8; // кол-во пицц на стр
 
-  const onClickCategory =(id: number)=>{
+  const onClickCategory = useCallback(
+    (id: number)=>{
       dispatch(setCategoryId (id))
       dispatch(setCurrentPage(1))
-  }
+  },[])
   
   const onChangePage = (number: number) =>{
     dispatch(setCurrentPage(number))
@@ -105,7 +106,7 @@ return (
         <div className="container">
           <div className="content__top">
             <Categories value={categoryId} onClickCategory={onClickCategory}/>
-            <Sort/>
+            <SortPopup value={sort}/>
           </div>
           <h2 className="content__title">Все пиццы</h2>
           { status ==="error"? (

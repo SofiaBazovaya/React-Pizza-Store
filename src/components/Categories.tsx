@@ -1,4 +1,5 @@
 import { nanoid } from 'nanoid'
+import { memo } from 'react';
 
 
 type CategoriesProps = {
@@ -14,9 +15,9 @@ const categories =[
 ]
 
 
-export default function Categories ({value, onClickCategory}: CategoriesProps){
+const Categories = memo (({value, onClickCategory}: CategoriesProps) => {
   return (
-                <div className="categories">
+            <div className="categories">
               <ul>
                 {
                   categories.map( (categoryName, index )=> (
@@ -29,3 +30,5 @@ export default function Categories ({value, onClickCategory}: CategoriesProps){
             </div>
   )
 }
+)
+export default Categories;
