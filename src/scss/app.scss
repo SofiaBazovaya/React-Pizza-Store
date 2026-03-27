@@ -294,14 +294,15 @@ body {
       justify-content: flex-end;
 
       .button {
-        border-color: color.adjust($color: variables.$gray-line, $lightness: -10%);
+        border-color: color.adjust($color: variables.$gray-line, $lightness: -50%);
       }
 
       svg {
         transform: rotate(45deg);
+        
 
         path {
-          fill: color.adjust($color: variables.$gray-line, $lightness: -15%);
+          fill: color.adjust($color: variables.$gray-line, $lightness: -50%);
         }
       }
 
