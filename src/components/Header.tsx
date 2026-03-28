@@ -4,11 +4,23 @@ import { IconShoppingCart } from '@tabler/icons-react';
 import logo from '../assets/img/pizza-logo2.svg'
 import Search from './Search/Search'
 import { useAppSelector } from '../redux/store';
+import { useEffect, useRef } from 'react';
 
 
 export default function Header(){
   const {items, totalPrice} = useAppSelector(selectCart)
   const selectedCartCount =items.reduce((sum: number, obj: CartItemInput) => sum + obj.count, 0);
+  const isMounted = useRef(false);
+
+  useEffect(()=>{
+    // чтобы первый рендер не создавал пустой массив:
+    if(isMounted.current){
+    const json = JSON.stringify(items);
+    localStorage.setItem('cart', json);
+    }
+
+    isMounted.current = true; 
+  },[items])
 
   return (
         <div className="header">
@@ -22,7 +34,7 @@ export default function Header(){
             </div>
               </div>
             </Link>
-          <Search/>
+            <Search/>
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice} ₽</span>
