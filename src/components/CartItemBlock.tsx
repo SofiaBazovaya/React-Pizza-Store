@@ -1,22 +1,12 @@
-import { addItem, minusItem, removeItem } from '../redux/slices/cartSlice';
+import { addItem, CartItemInput, minusItem, removeItem } from '../redux/slices/cartSlice';
 import { useAppDispatch } from '../redux/store';
 
 
-type CartItemBlockProps = {
-  id: string;
-  title: string;
-  price: number;
-  count: number;
-  type: string;
-  sizes: number;
-  imageUrl: string;
-}
 
-
-export default function CartItemBlock({id, title, price, count, type, sizes, imageUrl }: CartItemBlockProps){
+export default function CartItemBlock(item: CartItemInput){
   const dispatch = useAppDispatch();
 
-  const item = { id, title, price, type, sizes, imageUrl }
+  const { title, type, size, price, count, imageUrl, imageUrlThin } = item;
  
 
   const onClickPlus = () => {
@@ -36,14 +26,14 @@ export default function CartItemBlock({id, title, price, count, type, sizes, ima
               <div className="cart__item-img">
                 <img
                   className="pizza-block__image"
-                  src={imageUrl}
+                  src={type === 0 ? imageUrlThin : imageUrl}
                   alt={title}
                 />
               </div>
 
               <div className="cart__item-info">
                 <h3>{title}</h3>
-                <p>{type}, {sizes} см.</p>
+                <p>{type === 0 ? "тонкое" : "традиционное"}, {size} см.</p>
               </div>
 
               <div className="cart__item-count">

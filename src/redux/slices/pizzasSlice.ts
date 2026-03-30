@@ -9,13 +9,21 @@ type FetchPizzasArgs = {
   sortType: string;
 }
 
+interface PizzaVariant {
+  type: 0 | 1;      
+  size: 26 | 30 | 40;
+  price: number;        
+}
+
 export type Pizza = {
   id: string;
   title: string;
-  price: number;
-  sizes: number[];
-  types: number[];
   imageUrl: string;
+  imageUrlThin: string;
+  category: number;     
+  rating: number;      
+  variants: PizzaVariant[];
+  minPrice: number;   
 }
 
 export type FetchPizzasResponse = {

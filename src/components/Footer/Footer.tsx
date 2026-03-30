@@ -9,7 +9,7 @@ export default function Footer ()  {
       <div className="container">
         <div className={styles.inner}>      
 
-          <p>🍕 React Pizza</p>  
+          <p>🍕 Pizza Store</p>  
 
           <nav className={styles.nav}>
             <NavLink to="/about">О нас</NavLink>
@@ -18,7 +18,7 @@ export default function Footer ()  {
           </nav>
 
           <p className={styles.copy}>
-            © {new Date().getFullYear()} React Pizza. 
+            © {new Date().getFullYear()} Pizza Store. 
             <br/>
             Все права защищены
           </p>

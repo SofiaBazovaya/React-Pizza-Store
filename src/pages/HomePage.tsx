@@ -39,9 +39,10 @@ function HomePage() {
   }
 
   //функция для загрузки пицц
+  // !!! MockAPI не поддерживает комбинацию параметров category и search одновременно
   const getPizzas = () => {
     const category = categoryId > 0 ? `category=${categoryId}` : '';
-    const search = searchValue ? `&search=${searchValue}` : '';
+    const search = searchValue ? `search=${searchValue}` : '';
 
     dispatch(
       fetchPizzas({
@@ -54,7 +55,7 @@ function HomePage() {
     );
   };
 
-  // запрос данных
+  // Запрос данных 
   useEffect(() => {
     if (!isSearch.current) {
       getPizzas();
@@ -74,6 +75,7 @@ function HomePage() {
         currentPage: params.currentPage ? Number(params.currentPage) : 1,
         searchValue: params.searchValue ? String(params.searchValue) : '',
         sort: sortObj || list[0], // если sortObj не найден, используем значение по умолчанию
+        
       };
           
         dispatch(setFilters(filters));
@@ -84,16 +86,29 @@ function HomePage() {
   //Вшиваем параметры в URL при изменении фильтров
   useEffect(() => {
     if (isMounted.current) {
-      const isDefault = categoryId === 0 && sortType === 'rating' && currentPage === 1;
-      if (isDefault) {
-        navigate('/');
-      } else {
-        const queryString = qs.stringify({ sortProperty: sortType, categoryId, currentPage });
+      const queryParams: {
+      categoryId?: number;
+      currentPage?: number;
+      sortProperty?: string;
+      searchValue?: string;
+      } = {};
+      
+      // Добавляем параметры, только если они не являются значениями по умолчанию
+      if (categoryId !== 0) queryParams.categoryId = categoryId;
+      if (currentPage !== 1) queryParams.currentPage = currentPage;
+      if (sortType !== 'rating') queryParams.sortProperty = sortType;
+      if (searchValue) queryParams.searchValue = searchValue; 
+
+      const queryString = qs.stringify(queryParams);
+      
+      if (queryString) {
         navigate(`?${queryString}`);
+      } else {
+        navigate('/');
       }
     }
     isMounted.current = true;
-  }, [categoryId, sortType, currentPage]);
+  }, [categoryId, sortType, currentPage, searchValue]);
 
   // Вычисляем количество страниц
   const totalPages = Math.ceil(totalCount / limit);

@@ -5,7 +5,7 @@ import { useAppDispatch } from "../redux/store";
 
 export const list: Sort[] = [
   {name: 'популярности', sortProperty: 'rating'}, 
-  {name: 'цене', sortProperty: 'price'} , 
+  {name: 'цене', sortProperty: 'minPrice'} , 
   {name: 'алфавиту', sortProperty: 'title'}
 ]
 

@@ -7,10 +7,11 @@ import { calcTotalPrice } from '../../utils/calcTotalPrice';
 export type CartItem = {
   id: string;
   title: string;
-  price: number;
-  type: string;
-  sizes: number;
   imageUrl: string;
+  imageUrlThin: string;
+  type: 0 | 1;
+  size: 26 | 30 | 40;
+  price: number;
 }
 
 export type CartItemInput =  CartItem & {
@@ -40,7 +41,7 @@ export const cartSlice = createSlice({
         obj =>
           obj.id === action.payload.id &&
           obj.type === action.payload.type &&
-          obj.sizes === action.payload.sizes
+          obj.size === action.payload.size
       );
 
       if (findItem) {
@@ -58,7 +59,7 @@ export const cartSlice = createSlice({
           !(
             obj.id === action.payload.id &&
             obj.type === action.payload.type &&
-            obj.sizes === action.payload.sizes
+            obj.size === action.payload.size
           )
       );
 
@@ -70,7 +71,7 @@ export const cartSlice = createSlice({
         obj =>
           obj.id === action.payload.id &&
           obj.type === action.payload.type &&
-          obj.sizes === action.payload.sizes
+          obj.size === action.payload.size
       );
 
       if (!findItem) return;

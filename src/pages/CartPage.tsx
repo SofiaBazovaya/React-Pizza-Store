@@ -15,7 +15,7 @@ function CartPage() {
          dispatch( clearItem())
     }
 
-if (!totalPrice){
+if (items.length === 0){
   return <CartEmpty/>
 }
 
@@ -34,7 +34,7 @@ return (
           </div>
 
             <div className="content__items">
-             { items.map((item)=><CartItem key={`${item.id}_${item.type}_${item.sizes}`} {...item}/>)}    
+             { items.map((item)=><CartItem key={`${item.id}_${item.type}_${item.size}`} {...item}/>)}    
             </div>
 
                 <div className="cart__bottom">

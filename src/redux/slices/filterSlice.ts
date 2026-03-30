@@ -2,7 +2,7 @@ import { createSlice, PayloadAction  } from '@reduxjs/toolkit'
 
 export type Sort = {
   name: string; 
-  sortProperty: 'rating' | 'price' | 'title';
+  sortProperty: 'rating' | 'minPrice' | 'title';
 }
 
 interface FilterSliceState {
