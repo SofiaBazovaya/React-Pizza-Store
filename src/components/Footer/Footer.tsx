@@ -1,5 +1,6 @@
 import styles from './Footer.module.scss';
-import { NavLink } from 'react-router-dom'
+import { NavLink } from 'react-router-dom';
+import logofooter from '../../assets/img/pizza-logo2.svg'
 
 export default function Footer ()  {
 
@@ -9,7 +10,8 @@ export default function Footer ()  {
       <div className="container">
         <div className={styles.inner}>      
 
-          <p>🍕 Pizza Store</p>  
+          
+          <p><img width="22" height='38' src={logofooter} alt="Pizza logo" /> Pizza Store</p>  
 
           <nav className={styles.nav}>
             <NavLink to="/about">О нас</NavLink>

@@ -1,0 +1,133 @@
+
+.cart {
+  &--empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+
+    h2 {
+      font-size: 36px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: #232323;
+
+      span {
+        font-size: 32px;
+        display: inline-block;
+        margin-left: 8px;
+      }
+    }
+
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      color: #3f3f3f;
+      margin-bottom: 40px;
+      max-width: 600px;
+    }
+
+    img {
+      max-width: 300px;
+      width: 100%;
+      height: auto;
+      margin-bottom: 40px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 28px;
+      background-color: #dfdfdf;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 18px;
+      transition: all 0.2s ease;
+      border: none;
+      cursor: pointer;
+  
+      &:hover {
+        background-color: #cecece;
+        transform: translateY(-2px);
+      }
+  
+      &:active {
+        transform: translateY(0);
+      }
+  
+      &--black {
+        background-color: #232323;
+  
+        &:hover {
+          background-color: #3a3a3a;
+        }
+      }
+    }
+  }
+}
+
+
+@media (max-width: 768px) {
+  .cart--empty {
+    padding: 60px 20px;
+
+    h2 {
+      font-size: 28px;
+      margin-bottom: 16px;
+
+      span {
+        font-size: 26px;
+      }
+    }
+
+    p {
+      font-size: 16px;
+      margin-bottom: 32px;
+      padding: 0 12px;
+    }
+
+    img {
+      max-width: 240px;
+      margin-bottom: 32px;
+    }
+    .button {
+      padding: 10px 24px;
+      font-size: 15px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .cart--empty {
+    padding: 40px 16px;
+
+    h2 {
+      font-size: 24px;
+      margin-bottom: 12px;
+
+      span {
+        font-size: 22px;
+      }
+    }
+
+    p {
+      font-size: 14px;
+      margin-bottom: 28px;
+      line-height: 1.4;
+    }
+
+    img {
+      max-width: 200px;
+      margin-bottom: 28px;
+    }
+    .button {
+      padding: 8px 20px;
+      font-size: 14px;
+    }
+  }
+}

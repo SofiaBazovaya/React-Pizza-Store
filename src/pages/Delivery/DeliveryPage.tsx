@@ -22,7 +22,7 @@ function DeliveryPage () {
                 <li>Картой на сайте</li>
                 <li>Наличными или картой курьеру</li>
                 <li>SberPay / СБП</li>
-              </ul>
+              </ul>          
             </section>
           </div>
         </div>

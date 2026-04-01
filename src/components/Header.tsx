@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { CartItemInput, selectCart } from '../redux/slices/cartSlice';
 import { IconShoppingCart } from '@tabler/icons-react';
 import logo from '../assets/img/pizza-logo2.svg'
@@ -10,6 +10,8 @@ import { useEffect, useRef } from 'react';
 export default function Header(){
   const {items, totalPrice} = useAppSelector(selectCart)
   const selectedCartCount =items.reduce((sum: number, obj: CartItemInput) => sum + obj.count, 0);
+
+  const location = useLocation();
   const isMounted = useRef(false);
 
   useEffect(()=>{
@@ -34,7 +36,7 @@ export default function Header(){
             </div>
               </div>
             </Link>
-            <Search/>
+            {location.pathname === '/' && <Search />}
           <div className="header__cart">
             <Link to="/cart" className="button button--cart">
               <span>{totalPrice} ₽</span>

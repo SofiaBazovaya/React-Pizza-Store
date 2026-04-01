@@ -1,11 +1,46 @@
-.root{
+.root {
   padding: 100px;
   text-align: center;
+  min-height: calc(100vh - 360px);
 
   span {
-      font-size: 60px;
+    font-size: 60px;
   }
 }
 .description{
   font-size: 22xp;
+}
+
+
+@media (max-width: 768px){
+.root {
+  min-height: calc(100vh - 420px);
+  span {
+    font-size: 50px;
+    }
+  h1{
+    font-size: 38px;
+  }
+  }
+  .description {
+    font-size: 18xp;
+  }
+}
+
+@media (max-width: 480px) {
+  .root {
+    min-height: calc(100vh - 520px);
+    padding: 10px 16px;
+
+    h1 {
+      font-size: 28px;
+
+      span {
+        font-size: 40px;
+      }
+    }
+  }
+  .description {
+    font-size: 14px;
+  }
 }

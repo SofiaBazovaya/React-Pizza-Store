@@ -1,10 +1,11 @@
 import { Link } from 'react-router-dom';
-import cartEmptyImg from '../assets/img/empty-cart.png';
+import styles from './CartEmpty.module.scss';
+import cartEmptyImg from '../../assets/img/empty-cart.png';
 
 
 export default function CartEmpty () {
   return(  
-  <div className="cart cart--empty">
+  <div className={styles['cart--empty']}>
     <h2>
       Корзина пустая <span>😕</span>
     </h2>
@@ -14,9 +15,10 @@ export default function CartEmpty () {
       Для того, чтобы заказать пиццу, перейди на главную страницу.
     </p>
     <img src={cartEmptyImg} alt="Empty cart" />
-    <Link to="/" className="button button--black">
+    <Link to="/" className={styles.button}>
       <span>Вернуться назад</span>
     </Link>
-  </div>)
+  </div>
+  )
 }
 

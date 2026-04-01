@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { IconShoppingCart, IconTrash } from '@tabler/icons-react';
 import { clearItem, selectCart } from '../redux/slices/cartSlice';
 import CartItem from "../components/CartItemBlock";
-import CartEmpty from "../components/CartEmpty";
+import CartEmpty from "../components/CartEmpty/CartEmpty";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 
 

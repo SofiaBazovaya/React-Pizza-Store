@@ -6,23 +6,17 @@
   h1 {
     margin-bottom: 30px;
     font-size: 32px;
-    
+    text-align: center;
   }
 
   h3 {
     margin-bottom: 15px;
     color: #fe5f1e;
+    text-align: center; 
   }
-}
-.root {
-  max-width: 800px;
-  margin: 0 auto;
-  line-height: 1.6;
-  text-align: center;
 }
 
 .content {
-  margin-top: 30px;
   display: flex;
   flex-direction: column;
   align-items: center; 
@@ -31,6 +25,6 @@
   section {
     text-align: left; 
     width: 100%;
-    max-width: 500px;
+    max-width: 500px; 
   }
 }

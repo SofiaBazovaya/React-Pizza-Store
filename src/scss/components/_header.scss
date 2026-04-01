@@ -20,9 +20,11 @@
 
   &__logo {
     display: flex;
+    align-items: center;
 
     img {
       margin-right: 15px;
+      height: 58px;
     }
 
     h1 {
